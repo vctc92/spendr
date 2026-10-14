@@ -54,5 +54,18 @@
   "gallery.sample.sheetTitle": "Log Entry",
   "gallery.sample.sheetBody": "Swipe down, tap the scrim or use the close button.",
   "gallery.sample.showToast": "Show toast",
-  "gallery.sample.toast": "Saved · syncs when online"
+  "gallery.sample.toast": "Saved · syncs when online",
+  "common.cancel": "Cancel",
+  "gallery.section.controls": "Toggle, Checkbox, Select and Dialog",
+  "gallery.sample.reminders": "Reminders",
+  "gallery.sample.remember": "Remember me",
+  "gallery.sample.account": "Account",
+  "gallery.sample.accountPlaceholder": "Choose an account",
+  "gallery.sample.accountError": "Select an account",
+  "gallery.sample.accountHdfc": "HDFC Savings",
+  "gallery.sample.accountCash": "Cash",
+  "gallery.sample.openDialog": "Open dialog",
+  "gallery.sample.dialogTitle": "Leave household?",
+  "gallery.sample.dialogMessage": "You will lose access to shared entries.",
+  "gallery.sample.leave": "Leave"
 }

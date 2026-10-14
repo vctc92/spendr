@@ -5,6 +5,7 @@ import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ButtonsSection } from '@/components/dev/ButtonsSection';
+import { ControlsSection } from '@/components/dev/ControlsSection';
 import { DisplaySection } from '@/components/dev/DisplaySection';
 import { FormSection } from '@/components/dev/FormSection';
 import { OverlaySection } from '@/components/dev/OverlaySection';
@@ -191,6 +192,7 @@ function Gallery() {
 
       <ButtonsSection />
       <FormSection />
+      <ControlsSection />
       <DisplaySection />
       <OverlaySection />
     </ScrollView>

@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-`AGENTS.md` is the authoritative, mandatory rulebook (locked stack, design-token rules, money/privacy/offline rules, Definition of Done, reporting format). Read it before changing code; this file only adds what is needed to get oriented. Product spec is `docs/PRD.md`; screen designs are in `docs/design/screens/<name>/` (see AGENTS.md §16 for the source-of-truth order).
+`AGENTS.md` @AGENTS.md is the authoritative, mandatory rulebook (locked stack, design-token rules, money/privacy/offline rules, Definition of Done, reporting format). Read it before changing code; this file only adds what is needed to get oriented. Product spec is `docs/PRD.md`; screen designs are in `docs/design/screens/<name>/` (see AGENTS.md §16 for the source-of-truth order).
 
 ## Commands
 
@@ -30,14 +30,17 @@ Early-stage Expo SDK 56 / React Native 0.85 / React 19 app (Expo Router, NativeW
 Layering: `app → features → components/finance → components/ui|nativewindui → theme`; `engine/` (pure TS, no React/Supabase) and `lib/` are importable from anywhere. All backend code lives in `data/`; only `data/supabase/` may import `@supabase/supabase-js`, and `data/index.ts` exposes plain functions with our own types so the backend stays swappable. Screens use `features/*/hooks` (React Query), never `data/` directly.
 
 ### Design tokens live in three places that must stay in sync
+
 `global.css` (CSS variables), `tailwind.config.js` (maps classes to the variables), and `theme/tokens.ts` (hex values for code that can't use `className`: charts, navigation theme, status bar). `theme/colors.ts` / `theme/index.ts` are the NativeWindUI-style theme exports. Components and screens use token classes only; `theme/tokens.ts` is the one place hex values are allowed. Never change token values unless the task says so.
 
 ### Components
+
 - `components/nativewindui/` holds free NativeWindUI primitives (Button, Text, Icon, ThemeToggle) — edit only to fix bugs, never add Pro code.
 - `components/ui/` is for in-house primitives; screens must use the design-system `Text` (variants `display|title|heading|body|label|caption`), not `react-native`'s.
 - Every new/changed component must be added to `app/dev/gallery.tsx` (not created yet).
 
 ## Gotchas
+
 - Git branch is currently `master` while the main branch is `main`; work on `feat/…`, `fix/…` branches with Conventional Commits.
 - Don't install packages, edit `app.json`/`eas.json`, modify an applied migration, or hand-edit `types/database.ts` without being asked (AGENTS.md §13).
 - Phase 4 (SMS/email reconciliation) must not be built, including its tables, unless a task says so.

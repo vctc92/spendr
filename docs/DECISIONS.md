@@ -248,3 +248,17 @@ Every important decision, newest at the bottom. Agents read this at the start of
 - Status: Accepted
 - Decision: Dev dependencies `jest`, `jest-expo` (~56, matching the SDK) and `@testing-library/react-native`. Tests import `describe/it/expect` from `@jest/globals`; `@types/jest` is not used. RNTL v14 `render` is async, so tests `await` it.
 - Why: Needed for `npm run check`; `jest-expo@57` targets RN 0.86 and does not install on SDK 56.
+
+## D-033: In-house primitives, not NativeWindUI Button
+
+- Date: 2026-10-14
+- Status: Accepted
+- Decision: `components/ui/Button` is built in-house (primary, secondary, ghost, destructive; loading; disabled). NativeWindUI's `Button` stays untouched and unused by screens. `components/ui/Icon` wraps lucide icons (stroke 1.75, colour from a text-token class). `Toast` ships with a `ToastProvider`/`useToast` that is mounted only in the dev gallery until T5.
+- Why: NativeWindUI's Button uses `rounded-full`, raw pixel sizes and hex ripple colours, and has no destructive or loading variant (AGENTS §1.4, §5).
+
+## D-034: Jest setup for native modules
+
+- Date: 2026-10-14
+- Status: Accepted
+- Decision: `jest.setup.ts` mocks Reanimated, Worklets and safe-area-context and loads the gesture-handler setup. `package.json` maps `lucide-react-native` to its CJS build, because the preset cannot transform its `.mjs` files.
+- Why: Component render tests need these under Jest.

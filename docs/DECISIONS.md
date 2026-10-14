@@ -290,3 +290,33 @@ Every important decision, newest at the bottom. Agents read this at the start of
 - Status: Accepted
 - Decision: `TransactionRow` takes a `TransactionRowData` view model defined beside it; the ledger maps stored data into it (T6). The corner of the avatar shows, in priority order, the cloud-off icon (pending sync), the transfer icon, or the need-level dot. `NeedLevelChip` keeps foreground text with a tinted fill and coloured dot (D-018).
 - Why: `data/types.ts` does not exist yet, and the designs show these corner states.
+
+## D-039: Phase 0–1 schema (T2)
+
+- Date: 2026-10-14
+- Status: Accepted
+- Decision: Tables households, members, accounts, categories, transactions, saved_views, with enums for role, account type, visibility, transaction type, category kind and need level (`must_have`, `necessary`, `nice_to_have`, `avoidable`). `members.display_name` added for avatars. `categories.monthly_budget` waits for T10 and `transactions.source` for Phase 4. The invite table is left to T3/T11. Tags are lowercase with no spaces or `#`, enforced in the database.
+- Why: Matches PRD §4.2 and T2 scope; nothing is built before a task needs it.
+
+## D-040: RLS pattern
+
+- Date: 2026-10-14
+- Status: Accepted
+- Decision: RLS is enabled and forced on every table. Policies use `app.current_user_id()` and `SECURITY DEFINER` helpers (`is_member`, `is_owner`, `can_write`, `can_see_account`) to avoid recursion. Viewers are read-only; private accounts and their transactions (including transfers touching them) are visible to the owner only. Households are created through `create_household()`, which seeds default categories. Transactions are added to the Realtime publication.
+- Why: PRD §7.1, AGENTS §7.3.
+
+## D-041: Time zone and language are per-user settings
+
+- Date: 2026-10-14
+- Status: Accepted
+- Decision: `members.time_zone` (IANA name, validated in the database) and `members.locale` (BCP 47) are personal settings. The app passes the device zone and locale to `create_household()`; the database fallback is `UTC` and `en`, not Asia/Kolkata. `households.time_zone` is only the fallback for members without a choice. Timestamps stay UTC `timestamptz`; "today", day groups and month boundaries are computed in the viewing member's zone. Fixed offsets such as "UTC+5:30" are rejected.
+- Why: Owner wants the app to work worldwide. A fixed offset breaks at daylight-saving changes.
+- Replaces: the "household time zone (default Asia/Kolkata)" wording in AGENTS §8, which needs updating by the owner. Related: D-031, D-037.
+- Consequence: two members in different zones can see different day groupings and month totals near boundaries. Shared-report rules can be revisited in T7.
+
+## D-042: Seed data
+
+- Date: 2026-10-14
+- Status: Accepted
+- Decision: `supabase/seed.sql` inserts two fake `@spendr.invalid` users (Arjun, Meera) and sample data with fixed UUIDs. It is re-runnable, for dev projects only, and never for a household with real data.
+- Why: Lets RLS and the app be tested with two users.

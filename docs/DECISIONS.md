@@ -227,3 +227,24 @@ Every important decision, newest at the bottom. Agents read this at the start of
 - Decision: Onboarding, Filter sheet, Settings, Wealth, Projection, dark mode and all missing states are built from the PRD, tokens, existing components and the five delivered screens as style reference. Each plan lists them under "no design, built from tokens", and each report lists them under "Design deviations". The component sheet is replaced by the PRD §3.4 tables and `app/dev/gallery.tsx`.
 - Why: Owner decision; avoids waiting on the design agent.
 - Replaces: D-025.
+
+## D-030: Text-safe tokens and scrim added in T0
+
+- Date: 2026-10-14
+- Status: Accepted
+- Decision: Added `credit-text` (light #15803D, dark #4ADE80), `warning-text` (light #B45309, dark #FBBF24) and `scrim` (black at 40% light / 70% dark). All text-safe values are at least 4.5:1 on background, card and muted. The `Text` tones `credit` and `warning` now use them. Existing token values are unchanged.
+- Why: Implements D-018; `credit` and `warning` fail WCAG AA as text in light mode.
+
+## D-031: i18n from day 0 without a library
+
+- Date: 2026-10-14
+- Status: Accepted
+- Decision: All user-facing strings go through `t(key)` from `lib/i18n.ts`, with English in `locales/en.json` and typed keys. Locale detection and switching are added later (Settings).
+- Why: Owner wants the app translatable from the start for open-source use; no dependency needed yet.
+
+## D-032: Test tooling
+
+- Date: 2026-10-14
+- Status: Accepted
+- Decision: Dev dependencies `jest`, `jest-expo` (~56, matching the SDK) and `@testing-library/react-native`. Tests import `describe/it/expect` from `@jest/globals`; `@types/jest` is not used. RNTL v14 `render` is async, so tests `await` it.
+- Why: Needed for `npm run check`; `jest-expo@57` targets RN 0.86 and does not install on SDK 56.

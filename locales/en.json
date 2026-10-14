@@ -1,0 +1,19 @@
+{
+  "gallery.title": "Component gallery",
+  "gallery.appearance": "Appearance",
+  "gallery.appearance.system": "System",
+  "gallery.appearance.light": "Light",
+  "gallery.appearance.dark": "Dark",
+  "gallery.section.text": "Text variants",
+  "gallery.section.tones": "Text tones",
+  "gallery.section.colors": "Colour tokens",
+  "gallery.section.need": "Need levels",
+  "gallery.sample.text": "Spend smart, together.",
+  "gallery.sample.numeric": "₹1,23,456.00",
+  "gallery.sample.numericLabel": "Tabular figures",
+  "gallery.swatch.scrimNote": "Scrim sits over content, shown on a card",
+  "need.must_have": "Must-have",
+  "need.necessary": "Necessary",
+  "need.nice_to_have": "Nice-to-have",
+  "need.avoidable": "Avoidable"
+}

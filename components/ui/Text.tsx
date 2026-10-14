@@ -17,9 +17,9 @@ const textVariants = cva('', {
       default: 'text-foreground',
       muted: 'text-muted-foreground',
       primary: 'text-primary',
-      credit: 'text-credit',
+      credit: 'text-credit-text',
       debit: 'text-debit',
-      warning: 'text-warning',
+      warning: 'text-warning-text',
       onPrimary: 'text-primary-foreground',
     },
     /** Tabular figures so amounts line up in columns. */

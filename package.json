@@ -6,9 +6,16 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "start": "expo start",
-    "lint": "eslint \"**/*.{js,jsx,ts,tsx}\" && prettier -c \"**/*.{js,jsx,ts,tsx,json}\"",
-    "format": "eslint \"**/*.{js,jsx,ts,tsx}\" --fix && prettier \"**/*.{js,jsx,ts,tsx,json}\" --write",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "typecheck": "tsc --noEmit",
+    "lint": "expo lint",
+    "format": "prettier --write .",
+    "test": "jest",
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "db:types": "supabase gen types typescript --linked > types/database.ts"
+  },
+  "jest": {
+    "preset": "jest-expo"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.4.2",

@@ -4,7 +4,17 @@ import { useColorScheme } from 'nativewind';
 import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { ButtonsSection } from '@/components/dev/ButtonsSection';
+import { ChipsSection } from '@/components/dev/ChipsSection';
+import { ControlsSection } from '@/components/dev/ControlsSection';
+import { DisplaySection } from '@/components/dev/DisplaySection';
+import { FormSection } from '@/components/dev/FormSection';
+import { MoneySection } from '@/components/dev/MoneySection';
+import { OverlaySection } from '@/components/dev/OverlaySection';
+import { RowsSection } from '@/components/dev/RowsSection';
+import { Section } from '@/components/dev/Section';
 import { Text } from '@/components/ui/Text';
+import { ToastProvider } from '@/components/ui/Toast';
 import { cn } from '@/lib/cn';
 import { t, type TranslationKey } from '@/lib/i18n';
 import {
@@ -55,15 +65,6 @@ const SWATCHES: { token: ColorToken; name: string; className: string }[] = [
 ];
 
 const NEED_LEVELS: NeedLevel[] = ['must_have', 'necessary', 'nice_to_have', 'avoidable'];
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <View className="gap-3">
-      <Text variant="heading">{title}</Text>
-      {children}
-    </View>
-  );
-}
 
 function ModeToggle({ mode, onChange }: { mode: Mode; onChange: (mode: Mode) => void }) {
   return (
@@ -191,6 +192,15 @@ function Gallery() {
           ))}
         </View>
       </Section>
+
+      <ButtonsSection />
+      <FormSection />
+      <ControlsSection />
+      <DisplaySection />
+      <MoneySection />
+      <ChipsSection />
+      <RowsSection />
+      <OverlaySection />
     </ScrollView>
   );
 }
@@ -198,5 +208,9 @@ function Gallery() {
 export default function GalleryRoute() {
   // The route file ships in production bundles; this keeps it unreachable there.
   if (!__DEV__) return <Redirect href="/" />;
-  return <Gallery />;
+  return (
+    <ToastProvider>
+      <Gallery />
+    </ToastProvider>
+  );
 }

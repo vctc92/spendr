@@ -15,7 +15,13 @@
     "db:types": "supabase gen types typescript --linked > types/database.ts"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "setupFiles": [
+      "<rootDir>/jest.setup.ts"
+    ],
+    "moduleNameMapper": {
+      "^lucide-react-native$": "<rootDir>/node_modules/lucide-react-native/dist/cjs/lucide-react-native.js"
+    }
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.4.2",

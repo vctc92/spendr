@@ -15,7 +15,6 @@ import { Text } from '@/components/nativewindui/Text';
 
 import { useHeaderSearchBar } from '@/lib/useHeaderSearchBar';
 import { useColorScheme } from '@/lib/useColorScheme';
-import { COLORS } from '@/theme/colors';
 
 cssInterop(FlashList, {
   className: 'style',

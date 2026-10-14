@@ -38,6 +38,9 @@ module.exports = {
         credit: color('credit'),
         debit: color('debit'),
         warning: color('warning'),
+        'credit-text': color('credit-text'),
+        'warning-text': color('warning-text'),
+        scrim: 'rgb(var(--scrim) / var(--scrim-alpha))',
         need: {
           must: color('need-must'),
           necessary: color('need-necessary'),

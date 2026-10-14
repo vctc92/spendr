@@ -24,6 +24,11 @@
     --credit: 22 163 74; /* #16A34A */
     --debit: 220 38 38; /* #DC2626 */
     --warning: 217 119 6; /* #D97706 */
+    /* Text-safe variants: AA (4.5:1+) on background, card and muted (D-018) */
+    --credit-text: 21 128 61; /* #15803D */
+    --warning-text: 180 83 9; /* #B45309 */
+    --scrim: 0 0 0; /* #000000 */
+    --scrim-alpha: 0.4;
 
     /* Need levels */
     --need-must: 15 118 110; /* #0F766E */
@@ -49,6 +54,10 @@
     --credit: 74 222 128; /* #4ADE80 */
     --debit: 248 113 113; /* #F87171 */
     --warning: 251 191 36; /* #FBBF24 */
+    --credit-text: 74 222 128; /* #4ADE80 */
+    --warning-text: 251 191 36; /* #FBBF24 */
+    --scrim: 0 0 0; /* #000000 */
+    --scrim-alpha: 0.7;
 
     /* Need levels */
     --need-must: 45 212 191; /* #2DD4BF */

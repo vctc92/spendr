@@ -1,4 +1,5 @@
 import { X } from 'lucide-react-native';
+import { cssInterop } from 'nativewind';
 import * as React from 'react';
 import { Modal, Pressable, View, useWindowDimensions } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -17,6 +18,9 @@ import { Text } from '@/components/ui/Text';
 import { t } from '@/lib/i18n';
 import { tokens } from '@/theme/tokens';
 
+// Not a built-in NativeWind target, so without this its className is silently ignored.
+cssInterop(GestureHandlerRootView, { className: 'style' });
+
 type Props = {
   visible: boolean;
   onClose: () => void;
@@ -27,13 +31,9 @@ type Props = {
 const DISMISS_DISTANCE = 100;
 const DISMISS_VELOCITY = 800;
 
-const slide = (to: number, onDone?: (finished?: boolean) => void) => {
+const slide = (to: number) => {
   'worklet';
-  return withTiming(
-    to,
-    { duration: tokens.motion.base, reduceMotion: ReduceMotion.System },
-    onDone
-  );
+  return withTiming(to, { duration: tokens.motion.base, reduceMotion: ReduceMotion.System });
 };
 
 /** Bottom sheet. Closes via the scrim, the close button, Android back or a swipe down. */
@@ -51,9 +51,14 @@ export function Sheet({ visible, onClose, title, children }: Props) {
       translateY.set(slide(0));
     } else {
       translateY.set(
-        slide(height, (finished) => {
-          if (finished) scheduleOnRN(setMounted, false);
-        })
+        withTiming(
+          height,
+          { duration: tokens.motion.base, reduceMotion: ReduceMotion.System },
+          (finished) => {
+            'worklet';
+            if (finished) scheduleOnRN(setMounted, false);
+          }
+        )
       );
     }
   }, [visible, height, translateY]);

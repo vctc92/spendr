@@ -13,4 +13,9 @@ describe('Badge', () => {
       expect(screen.getByText('Synced')).toBeTruthy();
     }
   );
+
+  it('renders the medium size', async () => {
+    await render(<Badge label="Synced" size="md" />);
+    expect(screen.getByText('Synced')).toBeTruthy();
+  });
 });

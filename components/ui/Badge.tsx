@@ -7,8 +7,12 @@ import { Text } from '@/components/ui/Text';
 import { cn } from '@/lib/cn';
 
 // Tinted fill with foreground text; meaning is carried by the icon or label, not colour alone.
-const badgeVariants = cva('min-h-[24px] flex-row items-center gap-1 self-start rounded-full px-2', {
+const badgeVariants = cva('flex-row items-center gap-1 self-start rounded-full', {
   variants: {
+    size: {
+      sm: 'min-h-[24px] px-2',
+      md: 'min-h-[28px] px-3',
+    },
     tone: {
       neutral: 'bg-muted',
       primary: 'bg-primary/15',
@@ -17,7 +21,7 @@ const badgeVariants = cva('min-h-[24px] flex-row items-center gap-1 self-start r
       debit: 'bg-debit/15',
     },
   },
-  defaultVariants: { tone: 'neutral' },
+  defaultVariants: { tone: 'neutral', size: 'sm' },
 });
 
 const iconClass = {
@@ -32,14 +36,29 @@ type Props = {
   label: string;
   tone?: keyof typeof iconClass;
   icon?: LucideIcon;
+  size?: 'sm' | 'md';
+  /** Overrides the visible label for screen readers, e.g. a spoken amount. */
+  accessibilityLabel?: string;
   className?: string;
 };
 
-export function Badge({ label, tone = 'neutral', icon, className }: Props) {
+export function Badge({
+  label,
+  tone = 'neutral',
+  icon,
+  size = 'sm',
+  accessibilityLabel,
+  className,
+}: Props) {
   return (
-    <View className={cn(badgeVariants({ tone }), className)}>
-      {icon ? <Icon icon={icon} size={12} className={iconClass[tone]} /> : null}
-      <Text variant="caption">{label}</Text>
+    <View
+      accessible
+      accessibilityLabel={accessibilityLabel ?? label}
+      className={cn(badgeVariants({ tone, size }), className)}>
+      {icon ? (
+        <Icon icon={icon} size={size === 'md' ? 16 : 12} className={iconClass[tone]} />
+      ) : null}
+      <Text variant={size === 'md' ? 'label' : 'caption'}>{label}</Text>
     </View>
   );
 }

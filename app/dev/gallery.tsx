@@ -5,10 +5,13 @@ import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ButtonsSection } from '@/components/dev/ButtonsSection';
+import { ChipsSection } from '@/components/dev/ChipsSection';
 import { ControlsSection } from '@/components/dev/ControlsSection';
 import { DisplaySection } from '@/components/dev/DisplaySection';
 import { FormSection } from '@/components/dev/FormSection';
+import { MoneySection } from '@/components/dev/MoneySection';
 import { OverlaySection } from '@/components/dev/OverlaySection';
+import { RowsSection } from '@/components/dev/RowsSection';
 import { Section } from '@/components/dev/Section';
 import { Text } from '@/components/ui/Text';
 import { ToastProvider } from '@/components/ui/Toast';
@@ -194,6 +197,9 @@ function Gallery() {
       <FormSection />
       <ControlsSection />
       <DisplaySection />
+      <MoneySection />
+      <ChipsSection />
+      <RowsSection />
       <OverlaySection />
     </ScrollView>
   );

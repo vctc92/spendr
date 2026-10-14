@@ -262,3 +262,31 @@ Every important decision, newest at the bottom. Agents read this at the start of
 - Status: Accepted
 - Decision: `jest.setup.ts` mocks Reanimated, Worklets and safe-area-context and loads the gesture-handler setup. `package.json` maps `lucide-react-native` to its CJS build, because the preset cannot transform its `.mjs` files.
 - Why: Component render tests need these under Jest.
+
+## D-035: Delta logic lives in engine/delta.ts
+
+- Date: 2026-10-14
+- Status: Accepted
+- Decision: `engine/delta.ts` (`computeDelta`) returns direction, signed change, signed unrounded percent and a debit/credit/neutral tone for spend, income and savings. `DeltaBadge` only renders it; T7's `engine/money.ts` can reuse it.
+- Why: Domain rules belong in `engine/` (AGENTS §7.2), and the colour rule (D-016) needs 100% unit tests.
+
+## D-036: Money formatting and amount type
+
+- Date: 2026-10-14
+- Status: Accepted
+- Decision: `amountMinor` is a JS integer `number`, divided by the currency's minor-unit size only inside `lib/format.ts`. Whole amounts drop decimals (₹2,340). Compact INR uses three significant digits with at least one decimal ("₹31.1 L", "₹3.43 Cr", "₹5.0 Cr"), matching PRD §6.2 and §6.4. Screen-reader text uses `Intl` full currency names ("1,200 Indian rupees"), with "minus"/"plus" added from `locales/en.json`.
+- Why: Safe up to about ₹9×10¹³, keeps props simple, and avoids hand-rolled number words.
+
+## D-037: Category icons and calendar days
+
+- Date: 2026-10-14
+- Status: Accepted
+- Decision: Category icon names (D-027) resolve through a curated map in `components/finance/categoryIcons.ts` with a tag fallback. `DaySectionHeader` takes `date` and `today` as YYYY-MM-DD strings resolved in the household time zone by the caller, not `Date` objects.
+- Why: Keeps the bundle small, and avoids the device time zone deciding "today" (AGENTS §8).
+
+## D-038: TransactionRow and need chips
+
+- Date: 2026-10-14
+- Status: Accepted
+- Decision: `TransactionRow` takes a `TransactionRowData` view model defined beside it; the ledger maps stored data into it (T6). The corner of the avatar shows, in priority order, the cloud-off icon (pending sync), the transfer icon, or the need-level dot. `NeedLevelChip` keeps foreground text with a tinted fill and coloured dot (D-018).
+- Why: `data/types.ts` does not exist yet, and the designs show these corner states.

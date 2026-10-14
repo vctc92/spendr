@@ -1,67 +1,75 @@
-const { hairlineWidth, platformSelect } = require('nativewind/theme');
+/** Spendr Tailwind config — maps CSS variables in global.css to class names.
+ *  Spacing uses the default Tailwind scale; metro.config.js sets inlineRem: 16
+ *  so p-1 = 4px, p-4 = 16px on every platform (4-pt grid). */
+
+const color = (name) => `rgb(var(--${name}) / <alpha-value>)`;
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  // NOTE: Update this to include the paths to all of your component files.
-  darkMode: 'class', // Enable manual toggling of dark mode
-  content: ['./app/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
+  darkMode: 'class',
+  content: [
+    './app/**/*.{js,jsx,ts,tsx}',
+    './components/**/*.{js,jsx,ts,tsx}',
+    './features/**/*.{js,jsx,ts,tsx}',
+  ],
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
       colors: {
-        border: withOpacity('border'),
-        input: withOpacity('input'),
-        ring: withOpacity('ring'),
-        background: withOpacity('background'),
-        foreground: withOpacity('foreground'),
-        primary: {
-          DEFAULT: withOpacity('primary'),
-          foreground: withOpacity('primary-foreground'),
-        },
-        secondary: {
-          DEFAULT: withOpacity('secondary'),
-          foreground: withOpacity('secondary-foreground'),
-        },
-        destructive: {
-          DEFAULT: withOpacity('destructive'),
-          foreground: withOpacity('destructive-foreground'),
+        background: color('background'),
+        foreground: color('foreground'),
+        card: {
+          DEFAULT: color('card'),
+          foreground: color('foreground'),
         },
         muted: {
-          DEFAULT: withOpacity('muted'),
-          foreground: withOpacity('muted-foreground'),
+          DEFAULT: color('muted'),
+          foreground: color('muted-foreground'),
         },
-        accent: {
-          DEFAULT: withOpacity('accent'),
-          foreground: withOpacity('accent-foreground'),
+        border: color('border'),
+        primary: {
+          DEFAULT: color('primary'),
+          foreground: color('primary-foreground'),
         },
-        popover: {
-          DEFAULT: withOpacity('popover'),
-          foreground: withOpacity('popover-foreground'),
+        destructive: {
+          DEFAULT: color('destructive'),
+          foreground: color('destructive-foreground'),
         },
-        card: {
-          DEFAULT: withOpacity('card'),
-          foreground: withOpacity('card-foreground'),
+        credit: color('credit'),
+        debit: color('debit'),
+        warning: color('warning'),
+        need: {
+          must: color('need-must'),
+          necessary: color('need-necessary'),
+          nice: color('need-nice'),
+          avoidable: color('need-avoidable'),
         },
       },
-      borderWidth: {
-        hairline: hairlineWidth(),
+      fontFamily: {
+        // Custom fonts on native need one family per weight.
+        sans: ['Inter_400Regular', 'system-ui', 'sans-serif'],
+        'sans-medium': ['Inter_500Medium', 'system-ui', 'sans-serif'],
+        'sans-semibold': ['Inter_600SemiBold', 'system-ui', 'sans-serif'],
+      },
+      fontSize: {
+        display: ['32px', { lineHeight: '40px' }],
+        title: ['20px', { lineHeight: '28px' }],
+        heading: ['17px', { lineHeight: '24px' }],
+        body: ['15px', { lineHeight: '22px' }],
+        label: ['13px', { lineHeight: '18px' }],
+        caption: ['11px', { lineHeight: '16px' }],
+      },
+      borderRadius: {
+        sm: '8px', // alias: same as lg
+        lg: '8px', // inputs, chips
+        xl: '12px', // cards
+        '2xl': '16px', // sheets
+      },
+      transitionDuration: {
+        fast: '150ms',
+        base: '250ms',
       },
     },
   },
   plugins: [],
 };
-
-function withOpacity(variableName) {
-  return ({ opacityValue }) => {
-    if (opacityValue !== undefined) {
-      return platformSelect({
-        ios: `rgb(var(--${variableName}) / ${opacityValue})`,
-        android: `rgb(var(--android-${variableName}) / ${opacityValue})`,
-      });
-    }
-    return platformSelect({
-      ios: `rgb(var(--${variableName}))`,
-      android: `rgb(var(--android-${variableName}))`,
-    });
-  };
-}

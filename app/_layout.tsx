@@ -1,69 +1,68 @@
-import '@/global.css';
+import '../global.css';
 
-import { ThemeProvider as NavThemeProvider } from 'expo-router/react-navigation';
-import * as Device from 'expo-device';
-import { Link, Stack } from 'expo-router';
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  useFonts,
+} from '@expo-google-fonts/inter';
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider, type Theme } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { Platform, Pressable } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { useColorScheme } from 'nativewind';
+import { useEffect } from 'react';
 
-import { Icon } from '@/components/nativewindui/Icon';
-import { ThemeToggle } from '@/components/nativewindui/ThemeToggle';
-import { cn } from '@/lib/cn';
-import { useColorScheme } from '@/lib/useColorScheme';
-import { NAV_THEME } from '@/theme';
+import { tokens, type ColorScheme } from '@/theme/tokens';
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
+// Keep the splash screen up until fonts are ready, so text never flashes in the system font.
+SplashScreen.preventAutoHideAsync();
 
-const isIos26 = Platform.select({ default: false, ios: Device.osVersion?.startsWith('26.') });
+function navigationTheme(scheme: ColorScheme): Theme {
+  const c = tokens.color[scheme];
+  const base = scheme === 'dark' ? DarkTheme : DefaultTheme;
+  return {
+    ...base,
+    colors: {
+      ...base.colors,
+      background: c.background,
+      card: c.card,
+      text: c.foreground,
+      border: c.border,
+      primary: c.primary,
+      notification: c.destructive,
+    },
+  };
+}
 
 export default function RootLayout() {
-  const { colorScheme, isDarkColorScheme } = useColorScheme();
+  const [fontsLoaded, fontError] = useFonts({
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+  });
+  const { colorScheme } = useColorScheme();
+  const scheme: ColorScheme = colorScheme === 'dark' ? 'dark' : 'light';
+
+  useEffect(() => {
+    if (fontsLoaded || fontError) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
+  // If fonts fail to load, continue with the system-ui fallback instead of a blank screen.
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
 
   return (
-    <>
-      <StatusBar
-        key={`root-status-bar-${isDarkColorScheme ? 'light' : 'dark'}`}
-        style={isDarkColorScheme ? 'light' : 'dark'}
+    <ThemeProvider value={navigationTheme(scheme)}>
+      <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: tokens.color[scheme].background },
+        }}
       />
-      {/* WRAP YOUR APP WITH ANY ADDITIONAL PROVIDERS HERE */}
-      {/* <ExampleProvider> */}
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <NavThemeProvider value={NAV_THEME[colorScheme]}>
-          <Stack>
-            <Stack.Screen name="index" options={INDEX_OPTIONS} />
-            <Stack.Screen name="modal" options={MODAL_OPTIONS} />
-          </Stack>
-        </NavThemeProvider>
-      </GestureHandlerRootView>
-      {/* </ExampleProvider> */}
-    </>
+    </ThemeProvider>
   );
 }
-
-const INDEX_OPTIONS = {
-  headerLargeTitle: true,
-  headerTransparent: isIos26,
-  title: 'NativewindUI',
-  headerRight: () => <SettingsIcon />,
-} as const;
-
-function SettingsIcon() {
-  return (
-    <Link href="/modal" asChild>
-      <Pressable className={cn('opacity-80 active:opacity-50', isIos26 && 'px-1.5')}>
-        <Icon name="gearshape" className="text-foreground" />
-      </Pressable>
-    </Link>
-  );
-}
-
-const MODAL_OPTIONS = {
-  presentation: 'modal',
-  animation: 'fade_from_bottom', // for android
-  title: 'Settings',
-  headerRight: () => <ThemeToggle />,
-} as const;

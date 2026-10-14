@@ -3,6 +3,7 @@
 You are contributing to **Spendr** ("Spend smart, together."), a free, open-source (MIT) household expense, wealth and FIRE tracker built with Expo. These rules are mandatory. If a request conflicts with them, stop and say so instead of guessing.
 
 - Product spec: `docs/PRD.md` (read the relevant section before building a feature).
+- Decision log: `docs/DECISIONS.md` (read it every session; never undo a listed decision).
 - Setup: `SETUP.md`.
 - Designs: `docs/design/`.
 
@@ -18,9 +19,10 @@ You are contributing to **Spendr** ("Spend smart, together."), a free, open-sour
 6. **Security.** Never commit secrets. Only `EXPO_PUBLIC_SUPABASE_URL` and the anon/publishable key may reach the app. Never use the service-role key in client code. Every table has Row-Level Security.
 7. **Privacy.** Never log amounts, notes, account numbers, emails or message text. Never send user data to third-party services.
 8. **Supabase stays in `data/`.** Only files inside `data/` may import Supabase. Screens, components, hooks and `engine/` never do (see section 7.1).
-9. **Stay in scope.** Build only what the task and PRD describe. Don't add features, screens, settings or "improvements" nobody asked for. Don't refactor unrelated code.
-10. **Leave it green.** `npm run check` (typecheck, lint, tests) must pass before you finish.
-11. **Ask when unsure.** If requirements are ambiguous, ask one clear question, or make the simplest choice and list it under "Assumptions" in your summary.
+9. **Record decisions.** When the owner approves a decision or an assumption, add an entry to `docs/DECISIONS.md` in the same task (see section 15). Never contradict an existing entry; propose a replacement entry instead.
+10. **Stay in scope.** Build only what the task and PRD describe. Don't add features, screens, settings or "improvements" nobody asked for. Don't refactor unrelated code.
+11. **Leave it green.** `npm run check` (typecheck, lint, tests) must pass before you finish.
+12. **Ask when unsure.** If requirements are ambiguous, ask one clear question, or make the simplest choice and list it under "Assumptions" in your summary.
 
 ---
 
@@ -240,7 +242,8 @@ End every task with a short summary:
 2. **Files:** list of files added or modified.
 3. **How to test:** steps on the device or commands to run.
 4. **Assumptions:** anything you decided without explicit instruction.
-5. **Follow-ups:** anything left out of scope.
+5. **Decisions logged:** entries added to `docs/DECISIONS.md` (or "none"). Add an entry for any approved decision about libraries, tokens, schema, scope, phases or design-vs-PRD conflicts.
+6. **Follow-ups:** anything left out of scope.
 
 ---
 
